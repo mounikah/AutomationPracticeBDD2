@@ -91,10 +91,9 @@ public class StepDefinitions {
 
     }
     @Then("^user should see the womens page$")
-    public void isUserOntheWomenPage()  {
-    Assert.assertEquals(driver.getTitle(),"Women - My Store");
+    public void isUserOnWomensPage(){
+        Assert.assertEquals(driver.getTitle(),"Women - My Store");
     }
-
     @When("^click on tops link$")
     public void clickOnTopsLink()  {
         driver.findElement(By.xpath("//*[@id='subcategories']/ul/li[1]/h5/a")).click();
@@ -196,6 +195,51 @@ public class StepDefinitions {
     @Then("^user should see check payment page$")
     public void isUserOnPaymentByCheckPage()  {
         Assert.assertTrue(driver.findElement(By.xpath("//div[@id='center_column']/form/div/h3")).isDisplayed());
+    }
+    //********************* Update Address feature **************************************************
+    @When("^User selects My Addresses link$")
+    public void setMyAddressLinkOnHomePage()  {
+    driver.findElement(By.linkText("My addresses")).click();
+    }
+    @Then("^User should see his name as \"([^\"]*)\"$")
+    public void isUserLoggedIn(String name) {
+        Assert.assertEquals(driver.findElement(By.cssSelector("a.account")).getText(),name);
+    }
+    @When("^User selects My Addresses link on My Account page$")
+    public void setMyAddressLinkOnMyAccountPage()  {
+        driver.findElement(By.cssSelector("i.icon-building")).click();
+
+    }
+    @Then("^User Should see My Addresses page$")
+    public void isUserOnMyAddressesPage()  {
+        Assert.assertEquals(driver.findElement(By.cssSelector(".page-heading")).getText(),"MY ADDRESSES");
+
+    }
+    @When("^User selects update button$")
+    public void setUpdateButton()  {
+        driver.findElement(By.xpath("//div[@id='center_column']/div[1]/div/div/ul/li[9]/a[1]/span")).click();
+
+    }
+    @Then("^User should see Your Addresses$")
+    public void isUserOnYourAddressesPage()  {
+        Assert.assertEquals(driver.findElement(By.cssSelector(".page-subheading")).getText(),"YOUR ADDRESSES");
+    }
+
+    @When("^update address as \"([^\"]*)\"$")
+    public void setUpdateAddress(String address)  {
+        driver.findElement(By.xpath("//input[@id='address1']")).clear();
+        driver.findElement(By.xpath("//input[@id='address1']")).sendKeys(address);
+
+    }
+    @And("^User selects save button$")
+    public void setSaveButton()  {
+        driver.findElement(By.cssSelector("#submitAddress")).click();
+
+    }
+    @Then("^User should see updated address$")
+    public void verifyUpdatedAddress() {
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@id='center_column']/div[1]/div/div/ul/li[4]")).getText(),"105 Observatory Street Ann Arbor Test Street");
+
     }
 }
 
