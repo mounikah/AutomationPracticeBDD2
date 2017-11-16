@@ -74,10 +74,12 @@ public class StepDefinitions {
         Assert.assertEquals(actual_Msg,expectedConfirmationMsg);
     }
     //******************** Unhappy path scenario for refer to friend feature ****************************
-    @When("^enter name and email as blank and click on send button$")
-    public void enter_name_and_email_as_blank_and_click_on_send_button()  {
+   /* @When("^enter name as \"([^\"]*)\" and email as \"([^\"]*)\" and click on send button$")
+    public void setNameAndEmail(String name,String email)  {
+        driver.findElement(By.cssSelector("input[id='friend_name']")).sendKeys(name);
+        driver.findElement(By.cssSelector("input[name='friend_email']")).sendKeys(email);
         driver.findElement(By.cssSelector("#sendEmail")).click();
-    }
+    }*/
     @Then("^user should see error message$")
     public void verifyErrorMsgDisplayed()  {
         Assert.assertTrue(driver.findElement(By.cssSelector("#send_friend_form_error")).isDisplayed());
@@ -236,12 +238,31 @@ public class StepDefinitions {
         driver.findElement(By.cssSelector("#submitAddress")).click();
 
     }
-    @Then("^User should see updated address$")
-    public void verifyUpdatedAddress() {
-        Assert.assertEquals(driver.findElement(By.xpath("//div[@id='center_column']/div[1]/div/div/ul/li[4]")).getText(),"105 Observatory Street Ann Arbor Test Street");
+    @Then("^User should see updated address as \"([^\"]*)\"$")
+    public void verifyUpdatedAddress(String showUpdatedAddress) {
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@id='center_column']/div[1]/div/div/ul/li[4]")).getText(),showUpdatedAddress);
+
+    }
+    //**********************************************SignIn Feature *************************
+    @When("^User selects SignIn link$")
+    public void setsigninlink()  {
+        driver.findElement(By.cssSelector(".login")).click();
+
+    }
+
+    @Then("^User should see the Login Page$")
+    public void isUserOnTheloginpage() {
+        Assert.assertEquals("Login - My Store",driver.getTitle());
+
+    }
+
+    @Then("^User should see the feedback \"([^\"]*)\"$")
+    public void user_should_see_the_feedback_something(String message)  {
+        Assert.assertEquals(message,driver.findElement(By.cssSelector("div.alert.alert-danger ol li")).getText());
 
     }
 }
+
 
 
 
